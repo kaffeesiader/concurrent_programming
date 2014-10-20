@@ -41,11 +41,11 @@ public class Exercise1 {
 				@Override
 				public void run() {
 					while(true) {
-//						try {
-//							Thread.sleep(1000);
-//						} catch (InterruptedException e) {
-//							System.err.println(e);
-//						}
+						try {
+							Thread.sleep(1000);
+						} catch (InterruptedException e) {
+							System.err.println(e);
+						}
 					}
 				}
 			});
