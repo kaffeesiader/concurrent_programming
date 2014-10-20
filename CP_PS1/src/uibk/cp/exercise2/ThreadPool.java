@@ -52,8 +52,6 @@ public class ThreadPool {
 			try {
 				wait();
 			} catch (InterruptedException e) {
-				e.printStackTrace();
-				System.out.println("Thread " + Thread.currentThread().getId() + " interrupted!");
 				// interruption means the thread has to shut down, so we return null
 				return null;
 			}
@@ -85,7 +83,7 @@ public class ThreadPool {
 			
 			boolean stopped = false;
 			
-			System.out.println("Thread '" + this.getId() + "' started!");
+//			System.out.println("Thread '" + this.getId() + "' started!");
 			
 			while(!stopped) {
 				// if there is a task, execute it...
@@ -97,7 +95,7 @@ public class ThreadPool {
 				}
 			}
 			
-			System.out.println("Thread '" + this.getId() + "' stopped!");
+//			System.out.println("Thread '" + this.getId() + "' stopped!");
 		}
 	}
 	

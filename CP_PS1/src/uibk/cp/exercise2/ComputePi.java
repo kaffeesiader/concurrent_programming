@@ -94,15 +94,12 @@ public class ComputePi {
 	
 	public static void main(String[] args) {
 		
-		ThreadPool tp = new ThreadPool(1);
-//		ExecutorService tp = Executors.newFixedThreadPool(1);
 		ComputePi cp = new ComputePi(100, 7);
 		
 		StopWatch watch = new StopWatch();
 		
 		watch.start();
-		cp.compute(tp);
-//		cp.compute();
+		cp.compute();
 		watch.stop();
 		
 		System.out.println("Result: " + cp.getPi());
