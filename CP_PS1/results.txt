@@ -1,0 +1,103 @@
+Test parameters: stepSize=1000, precision=7
+
+Starting test run with 1 threads...
+50000000 fractions necessary for computation
+Result: 3.1415926
+Computation took 19955 ms
+
+Starting test run with 2 threads...
+50000000 fractions necessary for computation
+Result: 3.1415926
+Computation took 10288 ms
+
+Starting test run with 3 threads...
+50000000 fractions necessary for computation
+Result: 3.1415926
+Computation took 7216 ms
+
+Starting test run with 4 threads...
+50000000 fractions necessary for computation
+Result: 3.1415926
+Computation took 5625 ms
+
+Starting test run with 5 threads...
+50000000 fractions necessary for computation
+Result: 3.1415926
+Computation took 5125 ms
+
+Starting test run with 6 threads...
+50000000 fractions necessary for computation
+Result: 3.1415926
+Computation took 4832 ms
+
+Starting test run with 7 threads...
+50000000 fractions necessary for computation
+Result: 3.1415926
+Computation took 4588 ms
+
+Starting test run with 8 threads...
+50000000 fractions necessary for computation
+Result: 3.1415926
+Computation took 4761 ms
+
+Starting test run with 9 threads...
+50000000 fractions necessary for computation
+Result: 3.1415926
+Computation took 4884 ms
+
+Starting test run with 10 threads...
+50000000 fractions necessary for computation
+Result: 3.1415926
+Computation took 5068 ms
+
+Starting test run with 11 threads...
+50000000 fractions necessary for computation
+Result: 3.1415926
+Computation took 5433 ms
+
+Starting test run with 12 threads...
+50000000 fractions necessary for computation
+Result: 3.1415926
+Computation took 5359 ms
+
+Starting test run with 13 threads...
+50000000 fractions necessary for computation
+Result: 3.1415926
+Computation took 5233 ms
+
+Starting test run with 14 threads...
+50000000 fractions necessary for computation
+Result: 3.1415926
+Computation took 5259 ms
+
+Starting test run with 15 threads...
+50000000 fractions necessary for computation
+Result: 3.1415926
+Computation took 5123 ms
+
+Starting test run with 16 threads...
+50000000 fractions necessary for computation
+Result: 3.1415926
+Computation took 4926 ms
+
+Starting test run with 17 threads...
+50000000 fractions necessary for computation
+Result: 3.1415926
+Computation took 5036 ms
+
+Starting test run with 18 threads...
+50000000 fractions necessary for computation
+Result: 3.1415926
+Computation took 5058 ms
+
+Starting test run with 19 threads...
+50000000 fractions necessary for computation
+Result: 3.1415926
+Computation took 5015 ms
+
+Starting test run with 20 threads...
+50000000 fractions necessary for computation
+Result: 3.1415926
+Computation took 5191 ms
+
+Test run completed!
