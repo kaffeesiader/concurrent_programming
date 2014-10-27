@@ -1,3 +1,5 @@
+Measured on a UNI machine with Intel(R) Core(TM) i7-2600 CPU (4 cores)
+
 Test parameters: stepSize=1000, precision=7
 
 Starting test run with 1 threads...

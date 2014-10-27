@@ -27,6 +27,7 @@ public class Exercise1 {
 		
 		Thread.sleep(1000);
 		
+		System.out.println("Hit [Enter] to continue");
 		System.in.read();
 
 		// ---------------------- Create threads until system crashes---------------------------
