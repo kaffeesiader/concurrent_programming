@@ -28,7 +28,7 @@ public class ComputePi {
 		
 		this.value = new BigDecimal(0, mc);
 		
-		System.out.println(maxSteps + " fractions necessary for computation");
+//		System.out.println(maxSteps + " fractions necessary for computation");
 	}
 	
 	public BigDecimal getPi() {
@@ -94,7 +94,7 @@ public class ComputePi {
 	
 	public static void main(String[] args) {
 		
-		ComputePi cp = new ComputePi(100, 7);
+		ComputePi cp = new ComputePi(100, 6);
 		
 		StopWatch watch = new StopWatch();
 		

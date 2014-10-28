@@ -19,6 +19,15 @@ public class Exercise1 {
 				public void run() {
 					long id = Thread.currentThread().getId();
 					System.out.println("Thread with ID '" + id + "' started!");
+					while(true) {
+						System.out.println(Thread.currentThread().getId());
+						try {
+							Thread.sleep(1000);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
 				}
 			});
 
