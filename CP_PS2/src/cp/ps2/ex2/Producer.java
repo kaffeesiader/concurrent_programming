@@ -17,7 +17,7 @@ public class Producer extends Thread {
 		Random rnd = new Random();
 		int value;
 		while(true) {
-			value = rnd.nextInt(20);
+			value = rnd.nextInt(100);
 			buffer.put(index, value);
 			System.out.println(this + " put value '" + value + "' to buffer.");
 			if(value == 0) {
@@ -35,6 +35,10 @@ public class Producer extends Thread {
 		}
 		
 		System.out.println(this + " shut down.");
+	}
+
+	public Buffer getBuffer() {
+		return buffer;
 	}
 	
 	@Override

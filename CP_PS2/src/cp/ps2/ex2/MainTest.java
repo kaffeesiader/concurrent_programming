@@ -8,19 +8,18 @@ public class MainTest {
 	public static void main(String[] args) throws InterruptedException {
 		final int bufSize = 4;
 		List<Producer> producers = new ArrayList<>();
+		Buffer buffer = new Buffer();
 		
 		System.out.println("Starting Producers and Cosumer.");
-		
-		Buffer buffer = new Buffer(bufSize);
-		
-		Consumer cons = new Consumer(buffer);
-		cons.start();
 		
 		for(int i = 0; i < bufSize; ++i) {
 			Producer prod = new Producer(buffer, i);
 			producers.add(prod);
 			prod.start();
 		}
+		
+		Consumer cons = new Consumer(buffer, producers.size());
+		cons.start();
 		
 		cons.join();
 		

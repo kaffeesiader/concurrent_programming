@@ -34,4 +34,8 @@ public class Producer extends Thread {
 		
 		System.out.println("[Producer] shut down.");
 	}
+
+	public Buffer getBuffer() {
+		return buffer;
+	}
 }
