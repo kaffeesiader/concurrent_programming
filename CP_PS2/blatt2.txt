@@ -1,0 +1,73 @@
+====
+Name
+====
+Peter Kirk
+
+======
+Gruppe
+======
+Gruppe 4, bestehend aus:
+Martin Griesser
+Peter Kirk
+
+============================
+Liste der geloesten Aufgaben
+============================
+Alle Aufgaben vollstaendig.
+
+====================
+Antworten auf Fragen
+====================
+1) Keine Fragen...
+
+2) 
+Wie wird sichergestellt das der Consumer nur dann konsumiert wenn alle
+Producer Daten bereit haben?
+
+Der Consumer ruft in seiner "consumeData()" funktion zuerst einmal
+prod.getBuffer().waitForData() auf. Dieser Aufruf wird fuer jeden
+Buffer solange blocken bis der zugehoerige Producer Daten in den
+Buffer steckt (oder nicht blocken fals der Buffer nicht leer ist).
+Also ist hiernach in jedem Buffer mindestens ein Element.
+
+Wie verhaellt sich das System wenn es einen weiteren Consumer gibt
+der nur die Haelfte der Producer Zahlen abholt?
+
+Die Terminierungsbedingung ist dadurch zerstoert, der Consumer weiss
+nicht wann er einen Producer aus der Liste nehmen kann da er nicht
+sicher die 0 erhaellt die das Ende signalisiert. Um das Problem zu
+beheben koennte jeder Producer zwei 0 liefern bevor er terminiert.
+
+Ist die Loesung fair? Kann ein Consumer verhungern?
+Die Fairness der Loesung kommt auf die Implementierung von notify()
+an, laut java docs wird einer der wartenden threads geweckt, jedoch
+ist es der Implementierung ueberlassen wie dieser Thread aus der
+Menge der wartenden Threads gewaehlt wird...waere hier ein FIFO
+implementiert waere die Loesung fair; ist es random so ist die
+Loesung fast immer fair. Wird immer der Thread mit kleinerer
+ThreadID geweckt ist es sehr unfair.
+
+Erlaeutern sie moegliche Locking Mechanismen!
+In welchem Zusamenhang? Hier in unserer Aufgabe haben wir auf
+Ebene des Buffers gelocked, via synchronized. So kann immer nur
+ein Thread gleichzeitig den Buffer aendern (durch hinzufuegen
+oder entnehmen von Elementen).
+
+3) Keine Fragen...
+
+
+===========================================
+Anleitung wie man das Programm starten kann
+===========================================
+Fuer Aufgabe 1+2:
+
+cd nlprog2_1/src #bzw nlprog2_2/src
+javac nlprog/MainTest.java
+java nlprog.MainTest 
+
+Fuer Aufgabe 3:
+
+cd nlprog2_3/src
+javac nlprog/ex2.java
+java nlprog.Process
+
