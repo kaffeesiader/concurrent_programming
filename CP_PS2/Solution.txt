@@ -1,0 +1,34 @@
+Nebenläufige Programmierung - Übungszettel 2
+============================================
+
+Abgegeben von:    Martin Griesser(csap2497)
+Gruppe:           Gruppe 4 (Martin Griesser, Peter Kirk)
+Gelöste Aufgaben: 1,2,3
+
+Aufgabe 1:
+==========
+
+Ausführung: java -jar ex1.jar
+
+Aufgabe 2:
+==========
+
+Ausführung: java -jar ex2.jar
+
+Jeder Producer schreibt in einen Slot des Buffers, entsprechend seinem Index. 
+Ist dieser Slot bereits belegt, muss der Producer warten, bis der Wert vom Consumer
+gelesen wurde. Der Consumer teilt dem Buffer mit, wieviele Werte er auslösen möchte.
+Wenn genügend Werte bereitstehen (4) werden diese entsprechend ausgelesen und an den
+Consumer übergeben. Ansonsten muss der Consumer warten, bis alle Werte bereitstehen.
+Die Synchronisation erfolgt in den Methoden put() und get() der Klasse Buffer. 
+
+Sollte ein zweiter Consumer auf den selben Buffer zugreifen und jeweils nur 2 Werte
+auslesen, würde Consumer1 niemals zum Zug kommen(= starvation). Daher ist 
+diese Lösung nicht fair. Dieses Problem könnte gelöst werden, indem die get requests
+aller Consumer in einer Queue verwaltet und sequentiell abgearbeitet werden. Es wird
+dann immer jener Thread geweck, der an der Reihe ist, sobald seine Werte bereitstehen.
+
+Aufgabe 3:
+==========
+
+Ausführung: java -jar ex3.jar [NUM_PROCESSES]
