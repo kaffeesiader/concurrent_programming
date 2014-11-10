@@ -1,0 +1,58 @@
+Nebenläufige Programmierung - Übungszettel 3
+============================================
+
+Abgegeben von:    Martin Griesser(csap2497)
+Gruppe:           Gruppe 4 (Martin Griesser, Peter Kirk)
+Gelöste Aufgaben: 1,2,3
+
+Aufgabe 1:
+==========
+
+	Ausführung: java -jar ex1.jar
+
+a)	Der Konstruktor der Klasse 'ExpensiveObject' führt Operationen aus, welche unterschiedlich
+	viel Zeit in Anspruch nehmen (zählt bis zu einem zufälligen Wert zw. 0 u. 1000000). Wenn nun ein
+	Thread auf die Instanz zugreifen will, diese aber noch nicht existiert, wird der Konstruktor auf-
+	gerufen. Inzwischen kann ein anderer Thread auch auf die getInstance() methode zugreifen. Da die
+	Erstellung der Instanz aber unter Umständen noch nicht abgeschlossen ist, versucht dieser Thread
+	auch, eine Instanz zu erstellen. Danach existieren 2 unterschiedliche Instanzen und das Prinzip 
+	des Singleton-Patterns wurde verletzt!
+	
+b)	Das Problem kann gelöst werden, indem einfach die Methode getInstance() als synchronized deklariert
+	wird. Nun werden alle anderen Aufrufe blockiert, bis die Instanziierung abgeschlossen ist und der
+	erste aufrufende Thread die Methode wieder verlassen hat. Der Nachteil dieser Variante liegt aller-
+	dings darin, dass auch alle anderen Zugriffe auf synchronized Methoden der Klasse LazyInitRaceCondition
+	blockiert werden. Die bessere Lösung wäre hier die Verwendung eines Lock Objektes und eines synchronized
+	Blockes, durch welchen der Zugriff auf die Instanzvariable geschützt wird.
+	
+	Die dritte (und eleganteste) Möglichkeit ist die Verwendung eines sogenannten 'LazyHolders'. Dies ist
+	eine private, statische Klasse, welche die Instanz des ExpensiveObects als statische Variable enthält.
+	Bei dieser Methode wird der Erstellungszeitpunkt an die JVM delegiert und diese garantiert, dass die
+	Instanz	beim ersten Zugriff auf das Objekt erstellt wird.
+	
+c)	Ich würde sagen, dass die Implementierung der Message passing Aufgabe vom letzten Übungsblatt zum 
+	größten Teil Thread-safe ist, da alle öffentlichen Methoden entweder synchronized sind, oder einen
+	synchronized Block enthalten, in dem der Zugriff auf sensible Bereiche gesichert wird.
+
+Aufgabe 2:
+==========
+
+Ausführung: java -jar ex2.jar
+
+Jeder Producer schreibt in einen Slot des Buffers, entsprechend seinem Index. 
+Ist dieser Slot bereits belegt, muss der Producer warten, bis der Wert vom Consumer
+gelesen wurde. Der Consumer teilt dem Buffer mit, wieviele Werte er auslösen möchte.
+Wenn genügend Werte bereitstehen (4) werden diese entsprechend ausgelesen und an den
+Consumer übergeben. Ansonsten muss der Consumer warten, bis alle Werte bereitstehen.
+Die Synchronisation erfolgt in den Methoden put() und get() der Klasse Buffer. 
+
+Sollte ein zweiter Consumer auf den selben Buffer zugreifen und jeweils nur 2 Werte
+auslesen, würde Consumer1 niemals zum Zug kommen(= starvation). Daher ist 
+diese Lösung nicht fair. Dieses Problem könnte gelöst werden, indem die get requests
+aller Consumer in einer Queue verwaltet und sequentiell abgearbeitet werden. Es wird
+dann immer jener Thread geweck, der an der Reihe ist, sobald seine Werte bereitstehen.
+
+Aufgabe 3:
+==========
+
+Ausführung: java -jar ex3.jar [NUM_PROCESSES]
