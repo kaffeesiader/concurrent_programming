@@ -37,22 +37,43 @@ c)	Ich würde sagen, dass die Implementierung der Message passing Aufgabe vom le
 Aufgabe 2:
 ==========
 
-Ausführung: java -jar ex2.jar
+	Ausführung: java -jar ex2.jar
+				
+a)	Die 'gefährliche' Implementierung erstellt eine anonyme Listener Instanz direkt im Konstruktor.
+	Diese Instanz wird dan an die EventSource übergeben. Sie enthält aber eine versteckte Referenz auf
+	das erzeugende Objekt. Da dies alles im Konstruktor passiert, wird dadurch eine Referenz auf ein noch
+	nicht fertig erzeugtes Objekt weitergegeben.
+	
+b,c,d,e ) Siehe Implementierung!
 
-Jeder Producer schreibt in einen Slot des Buffers, entsprechend seinem Index. 
-Ist dieser Slot bereits belegt, muss der Producer warten, bis der Wert vom Consumer
-gelesen wurde. Der Consumer teilt dem Buffer mit, wieviele Werte er auslösen möchte.
-Wenn genügend Werte bereitstehen (4) werden diese entsprechend ausgelesen und an den
-Consumer übergeben. Ansonsten muss der Consumer warten, bis alle Werte bereitstehen.
-Die Synchronisation erfolgt in den Methoden put() und get() der Klasse Buffer. 
-
-Sollte ein zweiter Consumer auf den selben Buffer zugreifen und jeweils nur 2 Werte
-auslesen, würde Consumer1 niemals zum Zug kommen(= starvation). Daher ist 
-diese Lösung nicht fair. Dieses Problem könnte gelöst werden, indem die get requests
-aller Consumer in einer Queue verwaltet und sequentiell abgearbeitet werden. Es wird
-dann immer jener Thread geweck, der an der Reihe ist, sobald seine Werte bereitstehen.
-
+f)	Immutable Klassen haben den Vorteil, dass sie von Haus aus threadsafe sind, da hier keine veränderbaren
+	Parameter vor gleichzeitigem Zugriff geschützt werden müssen, da nur gelesen werden kann. 		
+				
 Aufgabe 3:
 ==========
 
-Ausführung: java -jar ex3.jar [NUM_PROCESSES]
+	Ausführung: java -jar ex3_not_safe.jar
+				java -jar ex3_safe.jar
+	
+a) 	siehe Implementierung!
+
+b)	Das Timing muss eigentlich überhaupt nicht angepasst werden, damit Probleme auftreten. Sobald mehr als
+	ein Setter Thread auf dieselbe NumberRange Instanz zugreifen, treten recht schnell IllegalArgumentExceptions
+	auf. Dies liegt daran, dass ein Setter zwar die eigenen Werte 'lower' und 'upper' auf Konsistenz prüfen kann,
+	nicht aber die Werte, die bereits von einem anderen Thread gesetzt wurden. Daher ist es sehr leicht möglich,
+	dass ein Thread versucht einen 'upper' Wert zu setzen, welcher niedriger ist als der momentan gesetzte 
+	'lower' Wert. Das Problem sind aber nicht nur die auftretenden und zu behandelnden Exceptions, sondern es
+	ist auch sehr gut möglich, dass keine Exception geworfen wird und das Ergebnis trotzdem falsch ist. Z.B.
+	Thread 1 versucht den Wert 'upper' auf 3 zu setzen. Der 'lower' hat momentan den Wert 2. Gleichzeitig ändert
+	aber Thread 2 den Wert 'lower' auf 4. Da Thread 1 aber die if-Bedingung bereits passiert hat, befindet sich
+	die NumberRange nun in einem inkonsistenten Zustand!
+	
+c)	Inkonsistente Zustände können leicht verhindert werden, indem die setter methoden in der Klasse NumberRange
+	mit dem 'synchronized' Schlüsselwort versehen werden. Dies verhindert allerdings nicht, dass immer noch
+	IllegalArgumentExceptions auftreten können, da der Setter Thread die aktuellen Ober- und Untergrenzen nicht
+	wissen kann. Dieses Problem kann eigentlich nur behoben werden, wenn die ganze NumberRange Klasse gelockt wird
+	bevor ein Thread die Ober- und Untergrenzen setzt.
+	
+d)	Siehe Implementierung!
+	
+	
