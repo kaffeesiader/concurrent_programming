@@ -1,0 +1,114 @@
+====
+Name
+====
+Peter Kirk
+
+======
+Gruppe
+======
+Gruppe 4, bestehend aus:
+Martin Griesser
+Peter Kirk
+
+============================
+Liste der geloesten Aufgaben
+============================
+Alle Aufgaben vollstaendig.
+
+====================
+Antworten auf Fragen
+====================
+1)
+a) Braucht der Constructor von ExpensiveObject nur lange genug, so braucht die Zeile
+"instance = new ExpensiveObject();" auch lange. Dies fuehrt dazu, dass der instance
+wert noch auf null steht waerend das object gerade erzeugt wird...kommt in dieser
+Zeit ein zweiter thread in die getInstance() funktion so wird er auch ein neues
+ExpensiveObject erzeugen.
+
+b) Wir geben zwei Moeglichkeiten an ThreadSafe zu sein:
+I: getInstance synchronized, das fuehrt dazu das immer nur ein Thread zu jedem
+Zeitpunkt in die Funktion kann
+II: synchronized nur im if, das fuehrt zu besserer Performance da es nur in der
+initialisierungsphase zu einem lock kommen kann. Siehe LazyNoInitRace.java.
+
+c) Der Main Thread startet zuerst thread0, dann fuer jeden weiteren Thread jeweils
+zuerst der thread0.register(newThread, newThreadID) aufgerufen, dann der neue
+thread gestartet. Register setzt in m_process[pid] den neuen thread, und ruft ein
+notify auf. Damit endet die Arbeit des Main Threads.
+
+Der Thread0 iteriert die ganze processes liste durch, und checked jeweils ob
+der entsprechende eintrag noch null ist (d.h. noch nicht vom main thread der
+register vorgang durch ist). Fals ein eintrag null ist wartet er auf den notify
+der vom register kommt, d.h. wir koennen sicher sein das am ende der schleife
+alle threads registriert wurden.
+Als zweiten schritt geht Thread0 die processes liste durch und uebergibt an alle
+die neighbours, damit jeder thread die volle information hat. Das setzen von
+neighbours ruft notify() auf.
+Anschliessend fuehrt Thread0 den gemeinsamen code mit den anderen Threads aus,
+auf dem wir weiter unten zu sprechen kommen.
+
+Threadi (i != 0) checkt als erstes ob der die processes liste schon hat, und legt
+sich schlafen fals dies noch nicht geschehen ist.
+
+Nun kommt der block den alle Threads auffuehren. Zu diesem Zeitpunkt ist sichergestellt
+dass alle Threads eine m_processes variable haben wo jeweils alle threads drin stehen.
+Zuerst ruft der Thread sendMessage() auf alle threads auf, ausser auf sich selbst.
+Danach ruft der Thread receiveMessage(i) auf sich selbst auf, fuer alle i ausser seine
+eigene threadID.
+Send message setzt die message und ruft notify auf, fals der entsprechende empfaenger gerade
+auf diese nachricht wartet.
+Receive message wartet solange die zu empfangende nachricht null ist, und gibt die nachricht
+dann zurueck.
+
+Unsere Analyse ergibt: Alles sauber ThreadSafe implementiert, keine Aenderung noetig.
+
+2)
+Aufgabe 2:
+==========
+a)      Die 'gefährliche' Implementierung erstellt eine anonyme Listener Instanz direkt im Konstruktor.
+        Diese Instanz wird dan an die EventSource übergeben. Sie enthält aber eine versteckte Referenz auf
+        das erzeugende Objekt. Da dies alles im Konstruktor passiert, wird dadurch eine Referenz auf ein noch
+        nicht fertig erzeugtes Objekt weitergegeben.
+
+b,c,d,e ) Siehe Implementierung!
+
+f)      Immutable Klassen haben den Vorteil, dass sie von Haus aus threadsafe sind, da hier keine veränderbaren
+        Parameter vor gleichzeitigem Zugriff geschützt werden müssen, da nur gelesen werden kann.
+
+
+3)
+a) Siehe NumberRange.java
+b+c) Es kommt ohne weitere Anpassung zu Problemen, denn es passiert oft das setLower
+   und setUpper die IllegalArgumentException schmeissen. Dies liegt daran dass die
+   setLower und die setUpper aenderungen von verschiedenen Threads paralell auftreten
+   und so ungueltige werte gesetzt werden. Natuerlich ist auch isInRange() nicht
+   sehr zuverlaessig dadurch, d.h. es wird oft vorkommen dass die Range auf die 
+   gechecked wird keine Range ist die jemals von einem der range setter threads 
+   gesetzt wurde.
+d) Siehe NumberRangeSafe.java
+
+
+===========================================
+Anleitung wie man das Programm starten kann
+===========================================
+Fuer Aufgabe 1:
+cd nlprog3_1
+javac LazyInitRace.java
+java LazyInitRace
+javac LazyNoInitRace.java
+java LazyNoInitRace
+
+Fuer Aufgabe 2:
+cd nlprog3_2
+javac cp/ex2/MainTest.java 
+java cp.ex2.MainTest 
+
+
+Fuer Aufgabe 3:
+
+cd nlprog3_3
+javac NumberRange.java
+java NumberRange
+
+javac NumberRangeSafe.java
+java NumberRangeSafe
