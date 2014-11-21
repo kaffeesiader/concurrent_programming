@@ -1,6 +1,5 @@
 package nlprog3_3;
 
-import java.util.concurrent.atomic.*;
 import java.util.Random;
 
 public class NumberRangeSafe {
