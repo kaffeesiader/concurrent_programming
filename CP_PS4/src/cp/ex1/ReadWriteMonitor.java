@@ -17,7 +17,7 @@ public class ReadWriteMonitor implements ReadWrite {
 	private Condition condition;
 	
 	private int rmax;
-	private int ravg;
+	private double ravg;
 	
 	public ReadWriteMonitor() {
 		readers = 0;
@@ -68,7 +68,7 @@ public class ReadWriteMonitor implements ReadWrite {
 				// compute stats
 				rmax = Math.max(readers, rmax);
 				ravg = (ravg+readers)/2;
-				System.out.format("[acquireWrite] rmax: %d, ravg: %d%n", rmax, ravg);
+				System.out.format("[acquireWrite] r: %d, rmax: %d, ravg: %.2f%n", readers, rmax, ravg);
 				condition.await();
 			}
 			writer = true;

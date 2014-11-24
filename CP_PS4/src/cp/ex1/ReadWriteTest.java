@@ -52,13 +52,17 @@ public class ReadWriteTest {
 				try {
 					int val = data[index];
 					System.out.format("[Reader-%d] read value '%d' from index '%d'%n", this.getId(), val, index);
-			
-					sleep(rand.nextInt(2000));	
+					sleep(rand.nextInt(500));	
 				} catch (InterruptedException handled) {
 					break;
+				// ensure to always release lock
 				} finally {
 					lock.releaseRead();
 				}
+				
+				// sleep some random time before next iteration
+				try { sleep(rand.nextInt(2000)); }
+				catch (InterruptedException handled) {}
 			}
 		}
 	}
@@ -75,19 +79,22 @@ public class ReadWriteTest {
 				try {
 					data[index] = val;
 					System.out.format("[Writer-%d] wrote value '%d' to index '%d'%n", this.getId(), val, index);
-					
 					sleep(rand.nextInt(500));
 				} catch (InterruptedException handled) {
 					break;
+				// ensure to always release lock
 				} finally {
 					lock.releaseWrite();
 				}
+				// sleep some random time before next iteration
+				try { sleep(rand.nextInt(2000)); }
+				catch (InterruptedException handled) {}
 			}
 		}
 	}
 	
 	public static void main(String[] args) {
-		new ReadWriteTest(2, 3).start();
+		new ReadWriteTest(20, 2).start();
 	}
 
 }
