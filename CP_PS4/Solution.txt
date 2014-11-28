@@ -1,0 +1,27 @@
+Nebenläufige Programmierung - Übungszettel 4
+============================================
+
+Abgegeben von:    Martin Griesser(csap2497)
+Gruppe:           Gruppe 4 (Martin Griesser, Peter Kirk)
+Gelöste Aufgaben: 1,2,3
+
+Aufgabe 1:
+==========
+
+	Ausführung: java -jar ex1.jar
+
+Aufgabe 2:
+==========
+
+	Ausführung: java -jar ex2.jar
+				
+	Mögliche logische Zustände:
+	- writing		->			Ein Schreiber schreibt in die Datenbank
+	- reading		->			Ein- oder mehrere Leser lesen Daten
+	- idle			->			Weder Leser noch Schreiber greifen auf die Daten zu
+	
+				
+Aufgabe 3:
+==========
+
+	
