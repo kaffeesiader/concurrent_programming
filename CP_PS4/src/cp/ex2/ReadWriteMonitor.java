@@ -16,12 +16,16 @@ public class ReadWriteMonitor implements ReadWrite {
 	
 	private int rmax;
 	private double ravg;
+	private int accWriteCount;
+	private int rTotal;
 	
 	public ReadWriteMonitor() {
 		readers = 0;
 		writer = false;
 		rmax = 0;
 		ravg = 0;
+		accWriteCount = 0;
+		rTotal = 0;
 		lock = new Object();
 	}
 
@@ -53,17 +57,23 @@ public class ReadWriteMonitor implements ReadWrite {
 
 	@Override
 	public void acquireWrite() {
-		
+		accWriteCount++;
 		synchronized(lock) {
 			try {
 				// wait for readers or writer to finish
 				while(getState() != LockState.IDLE) {
 					// compute stats
+					rTotal += readers;
 					rmax = Math.max(readers, rmax);
-					ravg = (ravg+readers)/2;
-					System.out.format("[acquireWrite] r: %d, rmax: %d, ravg: %.2f%n", readers, rmax, ravg);
+					System.out.format("[Writer-%d] Still waiting for %d readers%n", 
+							Thread.currentThread().getId(), readers);
+					
 					lock.wait();
 				}
+				ravg = (double)rTotal / accWriteCount;
+				System.out.format("[Writer-%d] rmax: %d, ravg: %.2f%n", 
+						Thread.currentThread().getId(), rmax, ravg);
+				
 				writer = true;
 				
 			} catch (InterruptedException e) {

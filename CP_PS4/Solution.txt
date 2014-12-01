@@ -24,4 +24,68 @@ Aufgabe 2:
 Aufgabe 3:
 ==========
 
+	Ausführung: java -jar ex3.jar
+
+Example Output:
+
+############### 1 threads #############
+##### Running with 50% insert, 25% read, 25% remove
+Unsynchronized took 394ms
+Synchronized took 1406ms
+Concurrent took 424ms
+##### Running with 80% insert, 15% read, 5% remove
+Unsynchronized took 378ms
+Synchronized took 1424ms
+Concurrent took 426ms
+
+
+############### 2 threads #############
+##### Running with 50% insert, 25% read, 25% remove
+Unsynchronized took 472ms
+Synchronized took 655ms
+Concurrent took 311ms
+##### Running with 80% insert, 15% read, 5% remove
+Unsynchronized took 520ms
+Synchronized took 482ms
+Concurrent took 781ms
+
+
+############### 4 threads #############
+##### Running with 50% insert, 25% read, 25% remove
+Unsynchronized took 348ms
+Synchronized took 604ms
+Concurrent took 362ms
+##### Running with 80% insert, 15% read, 5% remove
+Unsynchronized took 482ms
+Synchronized took 397ms
+Concurrent took 920ms
+
+
+############### 8 threads #############
+##### Running with 50% insert, 25% read, 25% remove
+Unsynchronized took 353ms
+Synchronized took 602ms
+Concurrent took 358ms
+##### Running with 80% insert, 15% read, 5% remove
+Unsynchronized took 350ms
+Synchronized took 636ms
+Concurrent took 343ms
+
+
+############### 16 threads #############
+##### Running with 50% insert, 25% read, 25% remove
+Unsynchronized took 374ms
+Synchronized took 323ms
+Concurrent took 716ms
+##### Running with 80% insert, 15% read, 5% remove
+Unsynchronized took 306ms
+Synchronized took 763ms
+Concurrent took 351ms
+
+
+Tested on:
+Java 1.7, Linux, Intel(R) Core(TM) i5-2467 CPU @ 1.60GHz
+
+
+
 	

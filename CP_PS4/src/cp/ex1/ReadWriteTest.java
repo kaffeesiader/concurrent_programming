@@ -94,7 +94,7 @@ public class ReadWriteTest {
 	}
 	
 	public static void main(String[] args) {
-		new ReadWriteTest(20, 2).start();
+		new ReadWriteTest(10, 2).start();
 	}
 
 }
