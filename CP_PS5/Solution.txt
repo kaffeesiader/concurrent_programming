@@ -1,0 +1,58 @@
+Nebenläufige Programmierung - Übungszettel 4
+============================================
+
+Abgegeben von:    Martin Griesser(csap2497)
+Gruppe:           Gruppe 4 (Martin Griesser, Peter Kirk)
+Gelöste Aufgaben: 1,2,3
+
+Aufgabe 1:
+==========
+
+	Ausführung: java -jar ex1.jar
+	
+e) 	- IO intensive Tasks koennen ausgelagert werden und werden schon mal im hintergrund
+	  vorgeladen (z.B. config files einlesen), bis der main thread sie braucht sind sie dann
+	  vielleicht schon parat
+	- CPU intensive tasks koennen auf einen anderen Thread verlegt werden um den main thread
+	  davon zu befreien, z.B. wenn der main thread fuer eine fluessige GUI darstellung zustaendig ist
+
+Aufgabe 2:
+==========
+
+	Ausführung: java -jar ex2.jar
+				
+Aufgabe 3:
+==========
+
+	Ausführung: java -jar ex3.jar
+
+- NumberGeneratorThread
+  =====================
+  Datenaustausch:			BlockingQueue<Integer> instance provided in constructor.
+  Cancellation policy:		Method 'shutdown' forces the generator to stop. A MainTest.POISON_PILL is 
+  							placed in the message queue before exiting the main loop.
+  							
+- PrimeCheckerThread
+  ==================
+  Datenaustausch:			Incomming numbers are taken from a BlockingQueue<Integer> instance provided
+  							in constructor. Discovered prime numbers are then propagated to all registered
+  							PrimeListener instances
+  Cancellation policy:		The PrimeChecker stops after reading a MainTest.POISON_PILL from the message
+  							queue.
+  							
+- SocketServerThread
+  ==================
+  Datenaustausch:		 	It provides the PrimeListener interface to handle incomming primes. Therefore
+  							it can be registered on a PrimeCheckerThread instance. Primes, along with
+  							the corresponding message are sent to a connected client by using text messages
+  							in the format [NUMBER] [MESSAGE]
+  Cancellation policy:		The SocketServerThread can be stopped, using the provided shutdown method.
+  							The server will then immediately stop. Messages that have not been sent to the
+  							client so far will be dropped!
+  							
+- SocketClientThread
+  ==================
+  Datenaustausch:			The SocketClientThread expects text messages in the format [NUMBER] [MESSAGE].
+  Cancellation policy:		The SocketClientThread can be stopped by sending an interrupt. It will then 
+  							stop immediately.
+    
