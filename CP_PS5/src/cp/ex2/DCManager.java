@@ -13,26 +13,30 @@ class DCManager {
     private final DataCenter[] dcArray = new DataCenter[numberOfDataCenters];
     private final Random rnd = new Random();
 
-
-
     public void run() {
         for(int i = 0; i < numberOfDataCenters; ++i) {
             DataCenter dc = new DataCenter(getGaussianDistributedRandom(0.01, 2, 1), "Center" + i); //computationPower with average around 2, minimum 0.01 and (theoretically) no maximum
             dcQueue.offer(dc); 
             dcArray[i] = dc;
         }
+        
         double lastTime = -preloadTimeForJobsAtStart;
+        
         while(true) {
             DataCenter cur = dcQueue.poll();
             double newTime = cur.getReadyTime();
             addNewJobs(lastTime, Math.min(timeToSimulate, newTime));
+            
             if(newTime > timeToSimulate) {
                 break;
             }
+            
             lastTime = newTime;
+            
             if(!cur.doNextOwnJob()) { //let's see if this datacenter can steal a job
                 Job j = null;
                 DataCenter stealFrom = null;
+                
                 for(DataCenter dc : dcArray) { //we even try to steal from ourself, but that doesn't matter, as we are broke ;)
                     Job potential = dc.peekAtPossibleSteal();
                     if(potential != null && (j == null || j.compareTo(potential) > 0)) {
@@ -40,6 +44,7 @@ class DCManager {
                         stealFrom = dc;
                     }
                 }
+                
                 if(j != null) {
                     cur.addJobToQueue(j);
                     stealFrom.stealJob(cur.getName());
@@ -48,12 +53,14 @@ class DCManager {
                     cur.nothingToSteal();
                 }
             }
+            
             dcQueue.offer(cur);
         }
 
         System.out.println("\n-----------final standings----------");
         System.out.println("The simulation ran for " + timeToSimulate + " (+ " +  preloadTimeForJobsAtStart + " preload) time units");
         System.out.println(Job.finalStats());
+        
         for(DataCenter dc : dcArray) {
             System.out.println(dc);
         }
@@ -63,6 +70,7 @@ class DCManager {
         double period = to - from;
         //System.out.println("period: " + period);
         assert(period >= 0);
+        
         while(true) {
             double p = rnd.nextDouble();
             double quantil = - Math.log(1-p)*timePerJob;
