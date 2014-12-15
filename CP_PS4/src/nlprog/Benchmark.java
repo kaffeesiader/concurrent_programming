@@ -38,18 +38,21 @@ public class Benchmark {
 		System.out.println("Bye!");
 	}
 	
-	public static void measureMap(final AbstractMap<Integer, Integer> m, final double insertChance, double readChance, String name, final int numThreads) {
+	public static void measureMap(final AbstractMap<Integer, Integer> m, final double insertChance, final double readChance, final String name, final int numThreads) {
 		Thread[] tarr = new Thread[numThreads];
 		long startTime = System.nanoTime();
+
 		for(int t = 0; t < numThreads; ++t) {
 			tarr[t] = new Thread(new Runnable() {
 				public void run() {
+					
 					for(int i = 0; i < 1000 * 1024 / numThreads; ++i) {
 						int randomInt = random.nextInt();
 						double percent = random.nextDouble();
 						if(percent < insertChance) { //e.g. 50% insert
 							m.put(randomInt, randomInt);
-						} else if(percent <= 0.75) { //e.g. 25% read
+						} else if(percent >= insertChance && 
+								percent < insertChance + readChance) { //e.g. 25% read
 							m.containsKey(randomInt);
 						} else { //e.g. 25% remove
 							m.remove(randomInt);
@@ -59,6 +62,7 @@ public class Benchmark {
 			});
 			tarr[t].start();
 		}
+		
 		for(int t = 0; t < numThreads; ++t) {
 			try {
 				tarr[t].join();
@@ -66,6 +70,7 @@ public class Benchmark {
 				e.printStackTrace();
 			}
 		}
+		
 		long endTime = System.nanoTime();
 		System.out.println(name + " took " + ((endTime - startTime) / 1000000) + "ms"); 
 	}
