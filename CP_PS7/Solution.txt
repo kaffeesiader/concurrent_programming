@@ -1,16 +1,16 @@
-Nebenläufige Programmierung - Übungszettel 6
+Nebenläufige Programmierung - Übungszettel 7
 ============================================
 
 Abgegeben von:    Martin Griesser(csap2497)
 Gruppe:           Gruppe 4 (Martin Griesser, Peter Kirk)
-Gelöste Aufgaben: 2,3
+Gelöste Aufgaben: 1,2
 
-Aufgabe 2:
+Aufgabe 1:
 ==========
 
-	Ausführung: SemaphoreTests.java als JUnit Test
+	Ausführung: java -jar ex1.jar
 				
-Aufgabe 3:
+Aufgabe 2:
 ==========
 	
 	Ausführung: Main Funktion in Klasse AtomicFutureTasks
