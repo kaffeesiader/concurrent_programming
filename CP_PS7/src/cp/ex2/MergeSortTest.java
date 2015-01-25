@@ -57,11 +57,10 @@ public class MergeSortTest {
 	
 	public void runTest(int n) {
 		System.out.println("Running test with size " + n);
-		String[] testSet = createTestSet(n);
 		
 		pause();
 		// ForkJoinMergeSort
-		String[] array = testSet.clone();
+		String[] array = createTestSet(n);
 		long startTime = System.nanoTime();
 		ForkJoinMergeSort.sort(array);
 		long duration = System.nanoTime() - startTime;
@@ -69,7 +68,7 @@ public class MergeSortTest {
 		
 		pause();
 		// MergeSort
-		array = testSet.clone();
+		array = createTestSet(n);
 		startTime = System.nanoTime();
 		MergeSort.sort(array);
 		duration = System.nanoTime() - startTime;
@@ -77,7 +76,7 @@ public class MergeSortTest {
 		
 		pause();
 		// Java sort
-		array = testSet.clone();
+		array = createTestSet(n);
 		startTime = System.nanoTime();
 		Arrays.sort(array);
 		duration = System.nanoTime() - startTime;
@@ -86,6 +85,14 @@ public class MergeSortTest {
 	
 	
 	public static void main(String[] args) {
+		
+		String[] testSet = new String[] {"Hubert", "Alexander", "Bettina", "Caesar", "Zeppelin", "Dora"};
+		
+		System.out.println("Testset: " + Arrays.toString(testSet));
+		ForkJoinMergeSort.sort(testSet);
+		System.out.println("Result : " + Arrays.toString(testSet));
+		System.out.println();
+		
 		int testSizes[] = {1000, 100000, 1000000, 10000000};
 		MergeSortTest test = new MergeSortTest();
 		

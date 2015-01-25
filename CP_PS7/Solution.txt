@@ -9,18 +9,30 @@ Aufgabe 1:
 ==========
 
 	Ausführung: java -jar ex1.jar
-				
+	
+	zu c)
+	  Beim einer bottom-up Implementierung des MergeSort Algorithmus kann man im Vorhinein berechnen, wieviele
+	  Iterationen notwendig sein werden bis der Sortiervorgang abgeschlossen ist:
+	       
+	       Iterationen = log2(Problemgröße)
+	       
+	  Diesen Wert kann man benutzen, um nach jeder Iteration den aktuellen Fortschritt zu berechnen.
+	  
+	  Die Methode RecursiveAction.cancel() kann Verwendet werden, um den Sortiervorgang abzubrechen. Natürlich
+	  ist es notwendig, dass die Implementierung nach jeder Iteration den cancel Status überprüft und 
+	  gegebenenfalls abbricht.
+	  
+	  	
 Aufgabe 2:
 ==========
 	
-	Ausführung: Main Funktion in Klasse AtomicFutureTasks
+	Ausführung: java -jar ex2.jar
 	
-	Verwendeter Zufallszahlengenerator: java.util.Random
+	zu d)
+	  Die Lösung implementiert den bottom-up Ansatz des MergeSort Algorithmus. Hierzu werden in jeder Iteration
+	  sich vergrößernde Teilbereiche des Arrays sortiert(gemerged). Diese einzelnen merge-Vorgänge können leicht
+	  parallelisiert werden. Allerdings ist es notwendig, nach jeder Iteration zu synchronisieren. Da hier kein
+	  rekursiver Ansatz gewählt wurde, wird wesentlich weniger Stack-Speicherplatz benötigt. Durch die notwendige
+	  Synchronisation leidet allerdings die Performance.
+
 	
-zu d)
-    
-    Dass Werte >= 30 nicht mehr geändert werden, wird dadurch erreicht, dass zuerst der aktuelle Wert
-    am entsprechenden Index ausgelesen und überprüft wird (Funktion Task.addValue). Ist die Obergrenze
-    noch nicht erreicht, wird der zu addierende Wert unter Verwendung der Funktion compareAndSet dazu-
-    addiert. Diese Funktion stellt sicher, dass der Wert nur dann addiert wird, wenn der aktuelle Wert
-    noch jenem entspricht, der zuvor gelesen wurde.
